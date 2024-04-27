@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> New result</title>
+    <link href="../static/css/style3.css" th:href="@{/css/style3.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+<div align="center">
+
+    <form action="#" th:action="@{'/result/new/'+${report.id}} " method="post" th:object="${result}" >
+
+
+        <label>Протокол:</label>
+        <select th:field="*{report}">
+            <option th:each="r : ${report}" th:value="${r.id}" th:text="${r.registrationNum}"/>
+        </select><br>
+<!--        <label>Критерия оценки:</label>-->
+<!--        <select th:field="*{criterias}">-->
+<!--            <option th:each="c : ${criterias}" th:value="${c.id}" th:text="${c.position}"/>-->
+<!--        </select><br>-->
+        <label>№ нитки редуцирования:</label>
+        <input type="text" width="60" th:field="*{numberN}" th:required="required"/><br/>
+
+        <label>Количество точек:</label>
+        <input type="text" th:field="*{quantityT}" th:required="required"/><br/>
+
+
+        <label>Рвх:</label>
+        <input type="text" th:field="*{pIn}" th:required="required"/>
+        <h7> МПа</h7>
+        <br/>
+
+        <label>Рвых:</label>
+        <input type="text" th:field="*{pOut}" th:required="required"/>
+        <h7> МПа</h7>
+        <br/>
+        <label>Расход:</label>
+        <input type="text" th:field="*{rate}" th:required="required"/>
+        <h7> тыс.м</h7><sup>3</sup><h7>ч</h7>
+        <br/>
+
+
+        <input type="hidden" th:field="*{id}">
+        <button type="submit"  >Создать</button>
+
+    </form>
+    <a th:href="@{/content}"><img src="/css/img/home2.PNG"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</div>
+</body>
+</html>

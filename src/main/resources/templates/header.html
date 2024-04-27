@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags">
+<head>
+    <meta charset="UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Tabbed Navigation</title>
+<!--  <link rel="stylesheet" href="css/style.css">-->
+<link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+<!--  [if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+
+
+<div th:fragment="content">
+
+    <header>
+
+        <nav>
+            <ul class="nav">
+                <li><a href="/content" class="icon home" img src="/css/img/home.png"><span>Home</span></a></li>
+                <li class="dropdown">
+                    <a href="/report/all">Протокол</a>
+                    <ul>
+                        <li><a href="/report/all">Архив протоколов</a></li>
+                        <li sec:authorize="hasRole('ROLE_USER')"><a href="/report/new">Создать новый протокол</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="/instrument/all">Средства измерений</a>
+                    <ul class="large">
+                        <li><a href="/instrument/all">Все</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/instrument/new">Добавить новый</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="/criteria/all">Критерии</a>
+                    <ul class="large">
+                        <li><a href="/criteria/all">Все</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/criteria/new">Добавить новую</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="/umg/all">Управления магистральных трубопроводов</a>
+                    <ul class="large">
+                        <li><a href="/umg/all">Все</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/umg/new">Добавить новый</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="/grs/all">Наименование объекта</a>
+                    <ul class="large">
+                        <li><a href="/grs/all">Все</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/grs/new">Добавить новый</a></li>
+
+                    </ul>
+                </li>
+
+
+                <li class="dropdown">
+                    <a href="/client/all">Заказчик</a>
+                    <ul class="large">
+                        <li><a href="/client/all">Список заказчиков</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/client/new">Создать нового заказчика</a></li>
+
+                    </ul>
+                </li>
+
+
+
+                <li class="dropdown">
+                    <a href="/person/all">Сотрудники</a>
+                    <ul class="large">
+                        <li><a href="/person/all">Список сотрудников</a></li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/person/new">Добавить нового сотрудника</a></li>
+
+                    </ul>
+                </li>
+
+
+                <li><a href="/logout" >Выход</a></li>
+
+            </ul>
+        </nav>
+    </header>
+</div>
+
+
+
+
+</body>
+</html>
+
+

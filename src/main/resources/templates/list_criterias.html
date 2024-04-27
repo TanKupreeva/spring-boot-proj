@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags">
+
+<head>
+    <meta charset="UTF-8">
+    <title>List criterias</title>
+    <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+
+<table class="table">
+    <p th:text="${msg}"> </p>
+
+    <tr>
+        <th rowspan="2" >Положение измерительной точки</th>
+        <th rowspan="2" >Параметр, единица измерения</th>
+        <th colspan="5">Оценка параметров вибрации</th>
+        <th rowspan="2" sec:authorize="hasRole('ROLE_ADMIN')">Изменить</th>
+        <th rowspan="2" sec:authorize="hasRole('ROLE_ADMIN')">Удалить</th>
+    </tr>
+    <tr>
+        <th>Отлично</th>
+        <th>Хорошо</th>
+        <th>Допустимо</th>
+        <th>Требует принятия мер</th>
+        <th>Недопустимо</th>
+
+    </tr>
+
+    <tr th:each="c : ${criterias}" >
+        <td th:text="${c.position}">...</td>
+        <td th:text="${c.parameter}">...</td>
+
+
+        <td th:text="${c.excellent.relationFrom}+''+${c.excellent.markFrom}+' '+${c.excellent.relationTo}+''+${c.excellent.markTo}" >...</td>
+        <td th:text="${c.good.relationFrom}+''+${c.good.markFrom}+' '+${c.good.relationTo}+''+${c.good.markTo}" >...</td>
+        <td th:text="${c.acceptable.relationFrom}+''+${c.acceptable.markFrom}+' '+${c.acceptable.relationTo}+''+${c.acceptable.markTo}" >...</td>
+        <td th:text="${c.requiresAction.relationFrom}+''+${c.requiresAction.markFrom}+' '+${c.requiresAction.relationTo}+''+${c.requiresAction.markTo}" >...</td>
+        <td th:text="${c.unacceptable.relationFrom}+''+${c.unacceptable.markFrom}+' '+${c.unacceptable.relationTo}+''+${c.unacceptable.markTo}" >...</td>
+
+
+
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/criteria/edit/' + ${c.id}}"><img src="/css/img/edit.png" align="center" alt="Редактировать"  height="20" width="20"/></a></td>
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/criteria/delete/' + ${c.id}}"><img src="/css/img/delete.png"align="center" alt="Удалить"  height="20" width="20"/></a></td>
+
+    </tr>
+
+
+</table>
+<!--<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/criteria/new}"><img src="/css/img/add.png"align="center" hspace="400"alt="Добавить новую критерию оценки вибрации"  height="30" width="30"/></a>-->
+<!--<a th:href="@{/content}"><img src="/css/img/home2.PNG"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>-->
+
+</body>
+</html>

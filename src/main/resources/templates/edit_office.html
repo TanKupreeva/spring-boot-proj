@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Edit Office</title>
+
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+    <style type="text/css">
+        label {
+            display: inline-block;
+            width: 200px;
+            margin: 5px;
+            text-align: left;
+        }
+        input[type=text], input[type=password], select {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type=radio] {
+            margin-left: 45px;
+        }
+        input[type=checkbox] {
+            margin-right: 190px;
+        }
+        button {
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+<div align="center">
+
+    <form action="#" th:action="@{/office/edit}" method="post" th:object="${office}">
+        <label>Название:</label>
+        <input type="text" th:field="*{name}" /><br/>
+
+
+        <input type="hidden" th:field="*{id}">
+        <button type="submit">Редактировать</button>
+    </form>
+</div>
+
+<a th:href="@{/office/all}"><img src="/css/img/back.png" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</body>
+</html>

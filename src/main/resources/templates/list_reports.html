@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags">
+
+<head>
+    <meta charset="UTF-8">
+    <title>List reports</title>
+    <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+
+<form action="/report/search_list">
+    <label for="start">Search :</label>
+    <input type="search" id="start" name="start">
+    <input type="submit">
+    <a th:href="@{/report/all}"><img src="/css/img/blue_clean.png"align="center" hspace="10" alt="Назад"  height="20" width="20"/></a>
+
+</form>
+
+
+<table class="table">
+    <p th:text="${msg}"> </p>
+
+    <tr>
+        <th>Регистрационный номер</th>
+        <th>Дата регистрации</th>
+        <th>Наименование объекта испытаний</th>
+        <th>Заказчик</th>
+        <th>Испытания провел</th>
+        <th>Дата проведения испытаний</th>
+        <th>Посмотреть протокол</th>
+        <th>Результаты измерений вибрации</th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')">Удалить</th>
+
+
+    </tr>
+
+
+    <tr th:each="report : ${reports}">
+        <td th:text="*{report.registrationNum}">...</td>
+        <td th:text="*{report.date}">...</td>
+
+<!--        <td th:text="'нитки редуцирования  '+*{report.grsName}">...</td>-->
+        <td th:text="'нитки редуцирования  '+*{report.getGrs().name}">...</td>
+
+
+
+        <td th:text="*{report.getGrs().name}">...</td>
+
+        <td th:text="*{report.fioPersons}">...</td>
+
+        <td th:text="*{report.testDate}">...</td>
+
+        <td><a th:href="@{'/report/details/' + ${report.registrationNum.replace('/','-')}}">Подробнее</a></td>
+        <td><a th:href="@{'/result/all/' + ${report.id}}">Подробнее</a></td>
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/report/delete/' + ${report.id}}"><img src="/css/img/delete.png"align="center" alt="Удалить"  height="20" width="20"/></a></td>
+
+    </tr>
+
+
+</table>
+<!--<a th:href="@{/content}"><img src="/css/img/home2.PNG"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>-->
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit ГРС</title>
+    <link href="../static/css/style3.css" th:href="@{/css/style3.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+<div align="center">
+
+    <form action="#" th:action="@{/grs/edit}" method="post" th:object="${grs}">
+        <label>Название:</label>
+        <input type="text" th:field="*{name}" /><br>
+
+        <label>УМГ:</label>
+        <select th:field="*{client}">
+            <option th:each="c : ${clients}" th:value="${c.id}" th:text="${c.getUmg().name}+' '+${c.getOffice().name}" />
+        </select><br>
+
+
+
+
+        <input type="hidden" th:field="*{id}">
+        <button type="submit">Редактировать</button>
+    </form>
+</div>
+<a th:href="@{/grs/all}"><img src="/css/img/back.png"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</body>
+</html>

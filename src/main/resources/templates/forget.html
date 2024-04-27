@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Forget password</title>
+    <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<br>
+<form action="#" th:action="@{'/register/forget/' + ${email}}" method="post" th:align="center"  >
+    <h3>Пожалуйста введите свой email</h3>
+    <div class="group">
+        <input type="email" size="50" name="email"  ><span class="highlight"></span><span class="bar"></span>
+        <label>Email</label>
+    </div>
+
+
+
+<br>
+    <button type="submit" class="button buttonBlue">Отправить
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
+
+
+</form>
+
+<script src="js/login.js"></script>
+</body>
+</html>

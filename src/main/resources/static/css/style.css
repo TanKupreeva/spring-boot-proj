@@ -1,0 +1,14 @@
+.btn-warning .badge {
+    color: #f0ad4e;
+    background-color: #fff;
+}
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+.btn-link {
+    font-weight: normal;
+    color: #337ab7;
+    border-radius: 0;
+}

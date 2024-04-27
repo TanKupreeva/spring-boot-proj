@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New report condition</title>
+    <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+<p th:text="${msg}"></p>
+<p><a th:href="@{'/condition/new/' + ${report.id}}">Добавить условие проведения испытаний</a></p>
+<p><a th:href="@{'/result/new/' + ${report.id}}">Добавить результаты измерений вибрации</a></p>
+<p><a th:href="@{'/result/all/' + ${report.id}}">Просмотреть результаты измерений вибрации</a></p>
+
+
+<input type="hidden" th:field="${report.id}">
+<a th:href="@{/content}"><img src="/css/img/home2.PNG"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</body>
+</html>

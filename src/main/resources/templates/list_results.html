@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags">
+
+<head>
+    <meta charset="UTF-8">
+    <title>List results</title>
+    <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+
+<table class="table">
+    <p th:text="${msg}"> </p>
+
+    <tr>
+        <th>№ нитки редуцирования</th>
+        <th>Количество точек</th>
+        <th>Рвх, МПа</th>
+        <th>Рвых, МПа</th>
+        <th>Расход, тыс.м<sup>3</sup>ч</th>
+        <th>Просмотр измерений</th>
+        <th>Добавить новые</th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')">Редактировать</th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')">Удалить</th>
+    </tr>
+    <tr th:each="r : ${results}">
+        <td th:text="*{r.numberN}"></td>
+        <td th:text="*{r.quantityT}"></td>
+        <td th:text="*{r.getPIn()}"></td>
+        <td th:text="*{r.getPOut()}"></td>
+        <td th:text="*{r.rate}"></td>
+
+        <td><a th:href="@{'/detail_results/show/' + ${r.id}}"><img src="/css/img/show.png" align="center" alt="Измерения"  height="20" width="20"/></a></td>
+        <td><a th:href="@{'/detail_results/new/' + ${r.id}}"><img src="/css/img/add.png" align="center" alt="Измерения"  height="20" width="20"/></a></td>
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/result/edit/' + ${r.id}}"><img src="/css/img/edit.png" align="center" alt="Измерения"  height="20" width="20"/></a></td>
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/result/delete/' + ${r.id}}"><img src="/css/img/delete.png"align="center" alt="Удалить"  height="20" width="20"/></a></td>
+
+
+    </tr>
+
+</table>
+<a th:href="@{'/result/new/' + ${report.id}}">Добавить нить редуцирования</a>
+
+</body>
+</html>

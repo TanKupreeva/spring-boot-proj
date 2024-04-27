@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> New condition</title>
+    <link href="../static/css/style3.css" th:href="@{/css/style3.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+
+<div align="center">
+
+    <form action="#" th:action="@{'/condition/new/'+${report.id}}" method="post" th:object="${condition}" >
+
+
+        <label>Протокол:</label>
+
+
+        <select th:field="*{report}">
+            <option th:value="${report.id}" th:text="${report.registrationNum}" />
+        </select><br/>
+
+        <label>Наименование помещения:</label>
+        <input type="text" name="place" value="узел редуцирования" th:required="required"/><br/>
+
+
+        <label>Дата определения параметров:</label>
+        <input type="date" th:field="*{date}" th:required="required"/><br/>
+
+        <label>Температура, ℃:</label>
+        <input type="text" th:field="*{temperature}" th:required="required"/><br/>
+
+        <label>Относительная влажность, %:</label>
+        <input type="text" th:field="*{humidity}" th:required="required"/><br/>
+
+
+        <label>Способ крепления датчика:</label>
+        <input type="text" name="sensor" value="магнит" th:required="required"/><br/>
+
+
+        <label>Состояние поверхности контакта:</label>
+        <input type="text" name="surfaceCondition" value="очищенная площадка 30х30 мм" th:required="required"/><br/>
+        <input type="hidden" th:field="*{id}">
+        <button type="submit">Создать</button>
+    </form>
+    <a th:href="@{/content}"><img src="/css/img/home2.PNG"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</div>
+</body>
+</html>

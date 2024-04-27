@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> New detail result</title>
+    <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+
+
+<label>Нить редуцирования №</label>
+<select >
+    <option  th:text="${number}" />
+</select><br/>
+<form action="#" th:action="@{'/detail_results/new/'+${id}}"  method="post" th:object="${detailResult}">
+<table class="table">
+    <tr>
+        <th>№ точки</th>
+        <th th:each="i : ${#numbers.sequence(1, t)}" th:value="${i}" th:text="${i}"></th>
+    </tr>
+
+    <tr>
+        <th>Направление</th>
+        <th th:colspan="${t}">Ve, мм/с</th>
+    </tr>
+
+    <tr>
+        <td>В</td>
+        <td th:each="lv : ${listV}" >
+            <input type="text" th:value="${lv}" name="listV" size="5" />
+        </td>
+    </tr>
+
+    <tr>
+        <td>П</td>
+        <td th:each="lp : ${listP}">
+            <input type="text" th:value="${lp}" name="listP" size="5" />
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>О</td>
+        <td th:each="lo : ${listO}">
+            <input type="text" th:value="${lo}" name="listO"size="5" />
+        </td>
+    </tr>
+
+
+    <tr>
+        <th>Критерия оценки</th>
+        <th th:each="i : ${#numbers.sequence(1, t)}">
+            <select th:field="*{criteria}" th:width="10" >
+                <option th:each="c : ${criterias}" th:value="${c.id}" th:text="${c.id}" name="criteria"/>
+            </select><br>
+        </th>
+    </tr>
+
+</table>
+
+<button type="submit">Создать</button>
+</form>
+
+<br>
+
+<table class="table">
+    <tr ><th th:colspan="2">Критерия оценки</th></tr>
+    <tr th:each="c : ${criterias}">
+        <td th:value="${c.id}" th:text="${c.id}"></td>
+        <td th:value="${c.id}" th:text="${c.position}"></td>
+    </tr>
+
+    </table>
+
+
+<input type="hidden" th:field="*{id}">
+<a th:href="@{'/result/all/'+${report.id}}"><img src="/css/img/back.png" align="center" hspace="80" alt="Назад" height="35"
+                                                 width="35"/></a>
+</div>
+</body>
+</html>

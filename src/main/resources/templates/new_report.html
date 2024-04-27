@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Report</title>
+    <link href="../static/css/style3.css" th:href="@{/css/style3.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+<div align="center">
+
+    <form action="#" th:action="@{/report/new}" method="post" th:object="${report}"  enctype="multipart/form-data">
+        <label>Регистрационный номер:</label>
+        <input type="text" th:field="*{registrationNum}" th:required="required" /><br>
+
+        <label>Дата регистрации:</label>
+        <input type="date" th:field="*{date}" th:required="required"/><br/>
+
+<!--        <label>Филиал:</label>-->
+<!--        <select th:field="*{grs.client.umg}">-->
+<!--            <option th:each="u : ${umges}" th:value="${u.id}" th:text="${u.name}" />-->
+<!--        </select><br>-->
+
+<!--        <label>Служба:</label>-->
+<!--        <select th:field="*{grs.client.office}">-->
+<!--            <option th:each="o : ${offices}" th:value="${o.id}" th:text="${o.name}" />-->
+<!--        </select><br>-->
+        <label>Наименование объекта:</label>
+        <select th:field="*{grs}" th:required="required">
+            <option th:each="g : ${grses}"  th:value="${g.id}" th:text="${g.name}" />
+        </select><br>
+
+
+        <label> Дата проведения испытаний:</label>
+        <input type="date" th:field="*{testDate}" th:required="required"/><br/>
+
+
+        <label>Средства измерений:</label>
+        <select th:field="*{instruments}" multiple th:required="required">
+            <option th:each="i : ${instruments}" th:value="${i.id}" th:text="${i.getFactoryNumber()}+'-'+${i.name}" />
+        </select><br>
+
+
+
+        <label>Инженерный состав:</label>
+        <select th:field="*{persons}" multiple th:required="required">
+            <option th:each="p : ${persons}" th:value="${p.id}" th:text="${p.lastName}" />
+        </select><br>
+
+        Загрузить схему:
+        <input type="file"  name="file" th:required="required">
+        <br><br>
+
+
+
+        <input type="hidden" th:field="*{id}">
+        <button type="submit"   >Создать</button>
+    </form>
+
+</div>
+<a th:href="@{/content}"><img src="/css/img/back.png"  alt="Назад"  height="35" width="35"/></a>
+
+</body>
+</html>

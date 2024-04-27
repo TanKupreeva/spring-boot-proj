@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Person</title>
+
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+    <style type="text/css">
+        label {
+            display: inline-block;
+            width: 200px;
+            margin: 5px;
+            text-align: left;
+        }
+        input[type=text], input[type=password], select {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type=radio] {
+            margin-left: 45px;
+        }
+        input[type=checkbox] {
+            margin-right: 190px;
+        }
+        button {
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="header :: content"></div>
+
+<div align="center">
+
+    <form action="#" th:action="@{/person/edit}" method="post" th:object="${person}">
+        <label>Фамилия:</label>
+        <input type="text" th:field="*{lastName}" /><br>
+
+        <label>Имя:</label>
+        <input type="text" th:field="*{name}" /><br>
+
+        <label>Отчество:</label>
+        <input type="text" th:field="*{firstName}" /><br>
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" /><br>
+
+        <label>Должность:</label>
+        <input type="text" th:field="*{function}" /><br>
+
+        <label>Сертификат компетентности:</label>
+        <input type="text" th:field="*{certificate}" /><br>
+
+        <label>Дата выдачи сертификата компетентности:</label>
+        <input type="date" th:field="*{dateOfIssue}"/><br/>
+
+
+        <label>Роль:</label>
+        <select th:field="*{roles}" multiple>
+            <option th:each="r : ${allRoles}"  th:value="${r.id}" th:text="${r.name}" />
+        </select><br>
+
+
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{password}">
+
+        <button type="submit">Редактировать</button>
+    </form>
+</div>
+</body>
+</html>

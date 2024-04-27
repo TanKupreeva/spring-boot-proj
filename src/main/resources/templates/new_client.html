@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Client</title>
+    <link href="../static/css/style3.css" th:href="@{/css/style3.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+
+<div align="center">
+
+    <form action="#" th:action="@{/client/new}" method="post" th:object="${client}">
+
+        <label>Служба:</label>
+        <select th:field="*{office}">
+            <option th:each="o : ${offices}" th:value="${o.id}" th:text="${o.name}" />
+        </select><br>
+
+
+        <label>Филиал:</label>
+        <select th:field="*{umg}">
+            <option th:each="u : ${umges}" th:value="${u.id}" th:text="${u.name}" />
+        </select><br>
+
+        <label>Адрес:</label>
+        <input type="text" th:field="*{address}" /><br>
+
+        <label>Телефон:</label>
+        <input type="text" th:field="*{phone}" /><br>
+
+
+        <label>Факс:</label>
+        <input type="text" th:field="*{fax}" /><br>
+        <input type="hidden" th:field="*{id}">
+        <button type="submit">Создать</button>
+    </form>
+
+</div>
+<a th:href="@{/client/all}"><img src="/css/img/back.png"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</body>
+</html>

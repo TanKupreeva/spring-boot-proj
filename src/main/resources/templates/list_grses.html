@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags">
+
+<head>
+    <meta charset="UTF-8">
+    <title>List grses</title>
+    <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+
+<div th:replace="header :: content"></div>
+
+
+<form action="/grs/search_list">
+    <label for="start">Search :</label>
+    <input type="search" id="start" name="start">
+    <input type="submit">
+    <a th:href="@{/grs/all}"><img src="/css/img/blue_clean.png"align="center" hspace="10" alt="Назад"  height="20" width="20"/></a>
+
+</form>
+
+<table class="table">
+    <p th:text="${msg}"> </p>
+
+    <tr>
+        <th>Название</th>
+        <th>УМГ</th>
+        <th>Служба</th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')">Изменить</th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')">Удалить</th>
+    </tr>
+
+
+    <tr th:each="grs : ${grses}">
+        <td th:text="*{grs.name}">...</td>
+        <td th:text="*{grs.getClient().getUmg().name}">...</td>
+        <td th:text="*{grs.getClient().getOffice().name}">...</td>
+
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/grs/edit/' + ${grs.id}}"><img src="/css/img/edit.png" align="center" alt="Редактировать"  height="20" width="20"/></a></td>
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/grs/delete/' + ${grs.id}}"><img src="/css/img/delete.png"align="center" alt="Удалить"  height="20" width="20"/></a></td>
+
+    </tr>
+
+
+</table>
+<!--<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/grs/new}"><img src="/css/img/add.png"align="center" hspace="400" alt="Добавить новую ГРС"  height="30" width="30"/></a>-->
+<!--<a th:href="@{/content}"><img src="/css/img/home2.PNG"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>-->
+
+</body>
+</html>

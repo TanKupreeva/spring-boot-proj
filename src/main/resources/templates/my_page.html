@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Content</title>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<a th:href="@{/umg/all}">Список УМГ</a><br>
+<a th:href="@{/office/all}">Список служб</a><br>
+<a th:href="@{/grs/all}">Список ГРС</a><br>
+<a th:href="@{/instrument/all}">Список измерительных приборов</a><br>
+<a th:href="@{/criteria/all}">Список критерий</a><br>
+<a th:href="@{/report/all}">Список протоколов</a><br>
+<a th:href="@{/report/new}">Создать протокол</a><br>
+
+<a th:href="@{/condition/all}">Список условий</a><br>
+
+
+<button class="btn btn-danger custom-width" type="button">Add to favorites</button>
+
+</body>
+</html>

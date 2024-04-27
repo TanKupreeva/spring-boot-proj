@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Umg</title>
+
+    <link href="../static/css/style3.css" th:href="@{/css/style3.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+<div align="center">
+
+    <form action="#" th:action="@{/umg/new}" method="post" th:object="${umg}">
+        <label>Название:</label>
+        <input type="text" th:field="*{name}" /><br/>
+        <input type="hidden" th:field="*{id}">
+        <button type="submit">Создать</button>
+    </form>
+
+</div>
+<a th:href="@{/umg/all}"><img src="/css/img/back.png" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</body>
+</html>

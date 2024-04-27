@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags">
+
+<head>
+  <meta charset="UTF-8">
+  <title>List instruments</title>
+  <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+  <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+
+<div th:replace="header :: content"></div>
+
+<form action="/instrument/search_list" >
+  <label for="start">Поиск :</label>
+  <input type="search" id="start" name="start">
+  <input type="submit">
+  <a th:href="@{/instrument/all}"><img src="/css/img/blue_clean.png"align="center" hspace="10" alt="Назад"  height="20" width="20"/></a>
+
+</form>
+
+
+<!--<label>Фильтр:</label>-->
+<!--<select th:field="*{filtr}">-->
+<!--  <option th:each="f : ${filtr}" th:value="${f}" th:text="${f}" />-->
+<!--</select>-->
+<!--<br/>-->
+
+
+
+
+<table class="table">
+  <p th:text="${msg}"> </p>
+
+  <tr>
+    <th>Наименование средства измерения</th>
+    <th>Тип (марка) средства измерения</th>
+    <th>Заводской номер</th>
+    <th>Номер свидетельства о поверке (калибровке)</th>
+    <th>Срок действия до даты</th>
+    <th sec:authorize="hasRole('ROLE_ADMIN')">Изменить</th>
+    <th sec:authorize="hasRole('ROLE_ADMIN')">Удалить</th>
+
+  </tr>
+
+  <tr>
+  <tr th:each="i : ${instruments}">
+    <td th:text="*{i.name}">...</td>
+    <td th:text="*{i.model}">...</td>
+    <td th:text="*{i.factoryNumber}">...</td>
+    <td th:text="*{i.certificateOfVerification}">...</td>
+    <td th:text="*{i.validUntil}">...</td>
+
+    <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/instrument/edit/' + ${i.id}}"><img src="/css/img/edit.png" align="center" alt="Редактировать"  height="20" width="20"/></a></td>
+    <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/instrument/delete/' + ${i.id}}"><img src="/css/img/delete.png"align="center" alt="Удалить"  height="20" width="20"/></a></td>
+
+
+
+  </tr>
+  </tr>
+
+
+</table>
+<!--<p th:text="${msg}" />-->
+<!--<a th:href="@{/instrument/new}"><img src="/css/img/add.png"align="center" hspace="400" alt="Добавить новое средство измерения"  height="30" width="30"/></a>-->
+<!--<a th:href="@{/content}"><img src="/css/img/home2.PNG"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>-->
+
+</body>
+</html>

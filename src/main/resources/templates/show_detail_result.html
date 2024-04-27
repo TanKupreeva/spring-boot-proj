@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Show detail result</title>
+    <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+    <style>
+        img {
+            padding: 10px 50px; /* Поля по вертикали и горизонтали */
+        }
+    </style>
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+
+
+
+<label>Нить редуцирования №</label>
+<select >
+    <option  th:text="${number}" />
+</select><br/>
+
+
+
+<table class="table">
+    <tr>
+        <th>№ точки</th>
+        <th th:each="i : ${#numbers.sequence(1, t)}" th:value="${i}" th:text="${i}"></th>
+    </tr>
+
+    <tr>
+        <th>Направление</th>
+        <th th:colspan="${t}">Ve, мм/с</th>
+    </tr>
+
+    <tr>
+        <td>В</td>
+        <td th:each="lv : ${listV}" th:value="${lv}" th:text="${lv}"     th:style="${lv >=18 ? 'color: red;' : (lv <green ? 'color: green;' : 'color: orange;')}">
+        </td>
+    </tr>
+
+    <tr>
+        <td>П</td>
+        <td th:each="lp : ${listP}" th:value="${lp}" th:text="${lp}"    th:style="${lp >=18 ? 'color: red;' : (lp <green ? 'color: green;' : 'color: orange;')}">
+
+    </tr>
+    <tr>
+        <td>О</td>
+        <td th:each="lo : ${listO}" th:value="${lo}" th:text="${lo}"      th:style="${lo >=18 ? 'color: red;' : (lo <green ? 'color: green;' : 'color: orange;')}">
+    </tr>
+    <tr>
+        <td>Критерия оценки</td>
+        <td  th:each="dr:${detailResults}"  th:value="${dr.criteria}" th:text="${dr.criteria.id}"/>
+    </tr>
+
+</table>
+
+
+
+<!--<a th:href="@{'/detail_results/edit/'+${result.id}}"><img src="/css/img/edit.png"    alt="Назад" height="20"-->
+<!--                                                          width="20" align=""/></a>-->
+<br>
+<br>
+
+<!--    <table class="table">-->
+<!--        <tr>-->
+<!--            <th th:colspan="2">Критерия оценки</th>-->
+<!--        </tr>-->
+<!--        <tr th:each="c : ${criterias}">-->
+<!--            <td th:value="${c.id}" th:text="${c.id}"></td>-->
+<!--            <td th:value="${c.id}" th:text="${c.position}"></td>-->
+<!--        </tr>-->
+
+<!--    </table>-->
+
+
+
+<table class="table">
+    <p th:text="${msg}"> </p>
+
+    <tr>
+        <th rowspan="2" >№</th>
+
+        <th rowspan="2" >Положение измерительной точки</th>
+        <th rowspan="2" >Параметр, единица измерения</th>
+        <th colspan="5">Оценка параметров вибрации</th>
+
+    </tr>
+    <tr>
+        <th th:style="'color: green;'">Отлично</th>
+        <th th:style="'color: green;'">Хорошо</th>
+        <th th:style="'color: green;'">Допустимо</th>
+        <th th:style="'color: orange;'">Требует принятия мер</th>
+        <th th:style="'color: red;'">Недопустимо</th>
+
+    </tr>
+
+    <tr th:each="c : ${criterias}" >
+        <td th:text="${c.id}">...</td>
+
+        <td th:text="${c.position}">...</td>
+        <td th:text="${c.parameter}">...</td>
+
+
+        <td th:text="${c.excellent.relationFrom}+''+${c.excellent.markFrom}+' '+${c.excellent.relationTo}+''+${c.excellent.markTo}" >...</td>
+        <td th:text="${c.good.relationFrom}+''+${c.good.markFrom}+' '+${c.good.relationTo}+''+${c.good.markTo}" >...</td>
+        <td th:text="${c.acceptable.relationFrom}+''+${c.acceptable.markFrom}+' '+${c.acceptable.relationTo}+''+${c.acceptable.markTo}" >...</td>
+        <td th:text="${c.requiresAction.relationFrom}+''+${c.requiresAction.markFrom}+' '+${c.requiresAction.relationTo}+''+${c.requiresAction.markTo}" >...</td>
+        <td th:text="${c.unacceptable.relationFrom}+''+${c.unacceptable.markFrom}+' '+${c.unacceptable.relationTo}+''+${c.unacceptable.markTo}" >...</td>
+
+
+
+    </tr>
+
+
+</table>
+
+
+
+
+
+
+    <input type="hidden" th:field="*{id}">
+
+
+    <a th:href="@{'/result/all/'+${report.id}}"><img src="/css/img/back.png" align="center" hspace="80" alt="Назад" height="35"
+                                  width="35"/></a>
+
+
+    </div>
+</body>
+</html>
+
+
+<!--<table class="table">-->
+<!--    <tr>-->
+<!--        <th>№ точки</th>-->
+<!--        <th th:each="i : ${#numbers.sequence(1, t)}" th:value="${i}" th:text="${i}"></th>-->
+
+<!--    </tr>-->
+
+<!--    <tr>-->
+<!--        <th>Направление</th>-->
+<!--        <th th:colspan="${t}">Ve, мм/с</th>-->
+
+<!--    </tr>-->
+
+
+<!--    <tr>-->
+<!--        <td>В</td>-->
+<!--        <td th:each="lv : ${listV}" th:value="${lv}" th:text="${lv}"><input type="text" th:field="lv">-->
+
+<!--        </td>-->
+
+<!--    </tr>-->
+
+<!--    <tr>-->
+<!--        <td>П</td>-->
+<!--        <td th:each="lp : ${listP}" th:value="${lp}" th:text="${lp}"><input type="text" th:field="lp">-->
+
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>О</td>-->
+<!--        <td th:each="lo : ${listO}" th:value="${lo}" th:text="${lo}"><input type="text" th:field="lo">-->
+
+<!--    </tr>-->
+
+<!--</table>-->
+
+<!--<input type="hidden" th:field="*{id}">-->
+<!--<button type="submit">Создать</button>-->
+<!--</form>-->
+<!--<a th:href="@{/content}"><img src="/css/img/home2.PNG" align="center" hspace="80" alt="Назад" height="35"-->
+<!--                              width="35"/></a>-->
+
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

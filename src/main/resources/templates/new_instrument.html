@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> New Instrument</title>
+    <link href="../static/css/style3.css" th:href="@{/css/style3.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+<div align="center">
+
+    <form action="#" th:action="@{/instrument/new}" method="post" th:object="${instrument}">
+        <label>Наименование средства измерения:</label>
+        <input type="text" th:field="*{name}" /><br/>
+
+        <label>Тип (марка) средства измерения:</label>
+        <input type="text" th:field="*{model}" /><br/>
+
+        <label>Заводской номер:</label>
+        <input type="text" th:field="*{factoryNumber}" /><br/>
+
+        <label>Номер свидетельства о поверке (калибровке):</label>
+        <input type="text" th:field="*{certificateOfVerification}" /><br/>
+
+
+        <label>Срок действия до даты:</label>
+        <input type="date" th:field="*{validUntil}" /><br/>
+
+<input type="hidden" th:field="*{id}">
+        <button type="submit">Создать</button>
+    </form>
+
+</div>
+<a th:href="@{/instrument/all}"><img src="/css/img/back.png"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</body>
+</html>

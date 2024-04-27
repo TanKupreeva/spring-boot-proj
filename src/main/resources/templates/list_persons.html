@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags">
+
+<head>
+    <meta charset="UTF-8">
+    <title>List people</title>
+    <link href="../static/css/style1.css" th:href="@{/css/style1.css}" rel="stylesheet"/>
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+
+<table class="table">
+    <p th:text="${msg}"> </p>
+
+    <tr>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>Отчество</th>
+        <th>Должность</th>
+        <th>Роль</th>
+        <th>Email</th>
+        <th>Сертификат компетентности</th>
+        <th>Дата выдачи</th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')">Изменить</th>
+        <th sec:authorize="hasRole('ROLE_ADMIN')">Удалить</th>
+    </tr>
+
+
+    <tr th:each="p : ${persons}">
+        <td th:text="*{p.lastName}">...</td>
+        <td th:text="*{p.name}">...</td>
+        <td th:text="*{p.firstName}">...</td>
+        <td th:text="*{p.function}">...</td>
+        <td><span  th:each="role : ${p.roles}"
+            th:text="${role.name}+' '"></span>
+        </td>
+
+        <td th:text="*{p.email}">...</td>
+
+        <td th:text="*{p.certificate}">...</td>
+        <td th:text="*{p.dateOfIssue}">...</td>
+
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/person/edit/' + ${p.id}}"><img src="/css/img/edit.png" align="center" alt="Редактировать"  height="20" width="20"/></a></td>
+        <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/person/delete/' + ${p.id}}"><img src="/css/img/delete.png"align="center" alt="Удалить"  height="20" width="20"/></a></td>
+
+    </tr>
+
+
+</table>
+<!--<a th:href="@{/person/new}"><img src="/css/img/add.png"align="center" alt="Добавить нового работника"  height="30" width="30"/></a>-->
+<!--<a th:href="@{/content}"><img src="/css/img/home2.PNG"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>-->
+
+</body>
+</html>

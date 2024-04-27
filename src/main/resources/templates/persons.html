@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.springframework.org/security/tags">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Registration and Login System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-
+            controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<div class="container">
+  <div class="row col-md-10">
+    <h2>Список сотрудников</h2>
+  </div>
+
+  <p th:text="${msg}"> </p>
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>Фамилия</th>
+      <th>Имя</th>
+      <th>Отчество</th>
+      <th>Должность</th>
+      <th>Сертификат компетентности</th>
+      <th>Дата выдачи</th>
+      <th>Email</th>
+      <th>Активирован</th>
+      <th sec:authorize="hasRole('ROLE_ADMIN')">Изменить</th>
+      <th sec:authorize="hasRole('ROLE_ADMIN')">Удалить</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each = "person : ${persons}">
+      <td th:text = "${person.lastName}"></td>
+      <td th:text = "${person.name}"></td>
+      <td th:text = "${person.firstName}"></td>
+      <td th:text = "${person.function}"></td>
+      <td th:text = "${person.certificate}"></td>
+      <td th:text = "${person.dateOfIssue}"></td>
+
+
+      <td th:text = "${person.email}"></td>
+      <td th:text = "${person.isActive()}?'да':'нет'"></td>
+      <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/persons/edit/' + ${person.id}}"><img src="/css/img/edit.png" align="center" alt="Редактировать"  height="20" width="20"/></a></td>
+      <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{'/persons/delete/' + ${person.id}}"><img src="/css/img/delete.png"align="center" alt="Удалить"  height="20" width="20"/></a></td>
+
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+</body>
+</html>

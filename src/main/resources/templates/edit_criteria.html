@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Criteria</title>
+
+    <link href="../static/css/style2.css" th:href="@{/css/style2.css}" rel="stylesheet"/>
+
+    <style type="text/css">
+        label {
+            display: inline-block;
+            width: 200px;
+            margin: 5px;
+            text-align: left;
+        }
+        input[type=text], input[type=password], select {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type=radio] {
+            margin-left: 45px;
+        }
+        input[type=checkbox] {
+            margin-right: 190px;
+        }
+        button {
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="header :: content"></div>
+
+<div align="center">
+
+    <form action="#" th:action="@{/criteria/edit}" method="post" th:object="${criteria}" >
+        <label>Положение измерительной точки:</label>
+        <input type="text" th:field="*{position}" /><br>
+
+        <label>Параметр, единица измерения:</label>
+        <input type="text" th:field="*{parameter}" /><br>
+
+        <label>Оценка параметров вибрации:</label><br>
+        <label>Отлично:</label>
+        <input type="text" th:field="*{excellent.relationFrom}" />
+        <input type="text" th:field="*{excellent.markFrom}" />
+        <input type="text" th:field="*{excellent.relationTo}" placeholder="<" />
+        <input type="text" th:field="*{excellent.markTo}" />
+        <br>
+        <label>Хорошо:</label>
+        <input type="text" th:field="*{good.relationFrom}" placeholder=">="/>
+        <input type="text" th:field="*{good.markFrom}" />
+        <input type="text" th:field="*{good.relationTo}" placeholder="<" />
+        <input type="text" th:field="*{good.markTo}" />
+        <br>
+        <label>Допустимо:</label>
+        <input type="text" th:field="*{acceptable.relationFrom}" placeholder=">="/>
+        <input type="text" th:field="*{acceptable.markFrom}" />
+        <input type="text" th:field="*{acceptable.relationTo}" placeholder="<" />
+        <input type="text" th:field="*{acceptable.markTo}" />
+        <br>
+        <label>Требует принятия мер:</label>
+        <input type="text" th:field="*{requiresAction.relationFrom}" placeholder=">="/>
+        <input type="text" th:field="*{requiresAction.markFrom}" />
+        <input type="text" th:field="*{requiresAction.relationTo}" placeholder="<"/>
+        <input type="text" th:field="*{requiresAction.markTo}" />
+        <br>
+        <label>Недопустимо:</label>
+        <input type="text" th:field="*{unacceptable.relationFrom}" placeholder=">="/>
+        <input type="text" th:field="*{unacceptable.markFrom}" />
+        <input type="text" th:field="*{unacceptable.relationTo}" placeholder="<"/>
+        <input type="text" th:field="*{unacceptable.markTo}" />
+        <br>
+
+
+        <input type="hidden" th:field="*{id}">
+        <button type="submit">Редактировать</button>
+    </form>
+</div>
+<a th:href="@{/criteria/all}"><img src="/css/img/back.png"align="center" hspace="80" alt="Назад"  height="35" width="35"/></a>
+
+</body>
+</html>
