@@ -1,0 +1,905 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:8889
+-- Generation Time: Apr 27, 2024 at 04:57 PM
+-- Server version: 5.7.39
+-- PHP Version: 7.4.33
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `vibration_diagnostics`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL,
+  `office_id` int(11) NOT NULL,
+  `umg_id` int(11) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `fax` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`id`, `office_id`, `umg_id`, `address`, `phone`, `fax`) VALUES
+(1, 1, 1, 'Лесной с/с,1, Гомельский район, Гомельская область', '8 0232 111111', '8 0232 121212'),
+(2, 1, 7, 'д.Cелище, Оршанский район, Витебская область', '8 0216 290226', '8 0216 290209'),
+(3, 1, 8, 'аг. Лапичи, Осиповичский район, Могилевская область', '80226767676', '80229898989'),
+(4, 1, 9, 'Гродненское шоссе, 1, г. Слоним, Гродненская область', '80156767676', '80159898989'),
+(5, 1, 2, 'ул. Дзержинского, 1, г. Кобрин, Брестская область', '80163434343', '80164545454'),
+(6, 1, 3, 'д. Староселье, Крупский район, Минская область', '80179090909', '80177676767'),
+(7, 1, 6, 'ул. Сновская, г. Несвиж, Минская область', '80177062236', '80177062609'),
+(8, 1, 4, 'а/г. Михановичи, Минский район, Минской области', '80174747474', '80179898989');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conditions`
+--
+
+CREATE TABLE `conditions` (
+  `id` int(11) NOT NULL,
+  `report_id` int(11) NOT NULL,
+  `place` varchar(255) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `temperature` double DEFAULT NULL,
+  `humidity` double DEFAULT NULL,
+  `sensor` varchar(255) DEFAULT 'магнит',
+  `surface_condition` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `conditions`
+--
+
+INSERT INTO `conditions` (`id`, `report_id`, `place`, `date`, `temperature`, `humidity`, `sensor`, `surface_condition`) VALUES
+(21, 14, 'Узел редуцирования', '2023-10-04', 15.9, 75, 'магнит', 'очищенная площадка 30х30 мм'),
+(22, 14, 'Промплощадка', '2023-10-04', 15, 71, 'магнит', 'очищенная площадка 30х30 мм'),
+(23, 13, 'Узел редуцирования', '2023-12-06', 9.1, 70, 'магнит', 'очищенная площадка 30х30 мм'),
+(25, 21, 'узел редуцирования', '2024-04-27', 55.5, 55.5, 'магнит', 'очищенная площадка 30х30 мм'),
+(26, 22, 'узел редуцирования', '2024-04-28', 55.5, 99, 'магнит', 'очищенная площадка 30х30 мм'),
+(27, 23, 'узел редуцирования', '2024-05-01', -4, 55, 'магнит', 'очищенная площадка 30х30 мм');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `criterias`
+--
+
+CREATE TABLE `criterias` (
+  `id` int(11) NOT NULL,
+  `position` varchar(255) DEFAULT NULL,
+  `parameter` varchar(255) DEFAULT NULL,
+  `excellent` int(11) NOT NULL,
+  `good` int(11) NOT NULL,
+  `acceptable` int(11) NOT NULL,
+  `requires_action` int(11) NOT NULL,
+  `unacceptable` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `criterias`
+--
+
+INSERT INTO `criterias` (`id`, `position`, `parameter`, `excellent`, `good`, `acceptable`, `requires_action`, `unacceptable`) VALUES
+(1, 'Трубопроводы, технологические аппараты', 'Виброскорость, мм/с', 1, 2, 3, 4, 5),
+(16, 'Опорные конструкции', 'Виброскорость, СКЗ, мм/с', 21, 22, 23, 24, 25);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `detail_results`
+--
+
+CREATE TABLE `detail_results` (
+  `id` int(11) NOT NULL,
+  `result_id` int(11) NOT NULL,
+  `criteria_id` int(11) NOT NULL,
+  `t` int(11) NOT NULL,
+  `v` double DEFAULT NULL,
+  `p` double DEFAULT NULL,
+  `o` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `detail_results`
+--
+
+INSERT INTO `detail_results` (`id`, `result_id`, `criteria_id`, `t`, `v`, `p`, `o`) VALUES
+(1, 113, 1, 1, 4.5, 99, 0.07),
+(2, 113, 1, 2, 13, 8.9, 0.03),
+(3, 113, 1, 3, 18, 0.11, NULL),
+(4, 113, 1, 4, 23, 18, NULL),
+(5, 113, 1, 5, 0.12, 0.13, 0.08),
+(6, 113, 1, 6, 0.14, 18, NULL),
+(7, 113, 1, 7, 0.09, 0.17, NULL),
+(8, 113, 1, 8, 0.1, 0.16, 0.13),
+(9, 113, 1, 9, 11, 0.2, NULL),
+(10, 113, 1, 10, 0.06, 0.06, 0.06),
+(11, 113, 1, 11, 0.23, 0.23, 0.23),
+(12, 120, 1, 1, 0.5, 0.4, 0.8),
+(13, 120, 1, 2, 0.3, 0.4, 0.3),
+(14, 120, 1, 3, 1.4, 1.6, NULL),
+(15, 120, 1, 4, 0.9, 1.3, NULL),
+(16, 120, 1, 5, 0.6, 0.4, 0.7),
+(22, 120, 1, 6, 2, 1.8, 1.4),
+(23, 120, 1, 7, 3.5, 2.6, NULL),
+(24, 120, 1, 8, 2.1, 0.9, 0.6),
+(25, 120, 1, 9, 14, NULL, 10),
+(36, 120, 16, 10, 2.8, 0.4, 0.5),
+(38, 114, 1, 8, NULL, NULL, NULL),
+(39, 114, 1, 1, 4, NULL, NULL),
+(40, 114, 1, 2, NULL, 7, 4),
+(41, 114, 1, 3, NULL, NULL, NULL),
+(42, 114, 1, 4, NULL, NULL, 8),
+(43, 114, 1, 5, NULL, 9, NULL),
+(44, 114, 1, 6, NULL, NULL, NULL),
+(45, 114, 1, 7, 6, NULL, NULL),
+(74, 126, 1, 1, 1, 22, 1),
+(75, 126, 1, 2, 33, 3, 22),
+(76, 127, 1, 1, 1, 2.2, 10),
+(77, 127, 1, 2, 34, 2, 1),
+(78, 127, 1, 3, 4, NULL, 1),
+(79, 127, 1, 4, 6, NULL, 7),
+(80, 127, 1, 5, 4, 4, NULL),
+(81, 127, 1, 6, 12, 33, 1),
+(82, 128, 1, 1, 2, 2.1, 6.9),
+(83, 128, 1, 2, 17.5, 35.8, 4.8),
+(84, 128, 1, 3, 6.9, 1.1, NULL),
+(85, 128, 1, 4, 1.1, NULL, NULL),
+(86, 121, 1, 1, 1, 1, 1),
+(87, 121, 1, 2, 2, 2, 2),
+(88, 121, 1, 3, 3, 3, 3),
+(89, 121, 1, 4, 11, 11, 11),
+(90, 121, 1, 5, 33, NULL, 33),
+(91, 121, 1, 6, 4, 4, 4),
+(92, 121, 1, 7, 77, 77, NULL),
+(93, 121, 1, 8, 6, 6, 6),
+(94, 121, 1, 9, 1, NULL, NULL),
+(95, 121, 1, 10, NULL, 1, 1),
+(96, 129, 1, 1, 4, 3, 55),
+(97, 130, 1, 1, 4, 7, 12),
+(98, 130, 1, 2, 22, 34, 4),
+(99, 130, 1, 3, 4, 6, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `grs`
+--
+
+CREATE TABLE `grs` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `client_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `grs`
+--
+
+INSERT INTO `grs` (`id`, `name`, `client_id`) VALUES
+(2, 'ГРС «Рассвет»', 3),
+(4, 'ГРС «Ковали»', 3),
+(6, 'ГРС «Кличев»', 3),
+(10, 'ГРС «Осиповичи»', 3),
+(14, 'ГРС «Старые дороги»', 3),
+(15, 'ГРС «Тихиничи»', 3),
+(16, 'ГРС «Червень»', 3),
+(17, 'ГРС «Ясень»', 3),
+(18, 'АГРС «Белица»', 4),
+(19, 'ГРС «Вороново»', 4),
+(20, 'АГРС «КС Орша»', 2),
+(21, 'ГРС «1 Мая»', 2),
+(22, 'ГРС «Барань»', 2),
+(23, 'ГРС «БелГРЭС»', 2),
+(24, 'ГРС «Веремейки»', 2),
+(25, 'ГРС «Витебск-1»', 2),
+(26, 'ГРС «Витебск-2»', 2),
+(27, 'ГРС «Горки»', 2),
+(28, 'ГРС «Дзержинск»', 2),
+(29, 'ГРС «Гомель 2А»', 1),
+(30, 'ГРС «Гомель 1А»', 1),
+(31, 'ГРС «Будище»', 1),
+(32, 'ГРС «Мозырь»', 1),
+(33, 'ГРС «Уваровичи»', 1),
+(34, 'ГРС «Тереховка»', 1),
+(35, 'ГРС «Старое село»', 1),
+(36, 'ГРС «Старая Рудня»', 1),
+(37, 'ГРС «Крупец»', 1),
+(38, 'ГРС «Зябровка 1»', 1),
+(39, 'ГРС «Зябровка»', 1),
+(40, 'ГРС «Добруш»', 1),
+(41, 'ГРС «Гомель 3А»', 1),
+(42, 'ГРС «Буда-Кошелево»', 1),
+(46, 'ГРС «Краснополье»', 2),
+(47, 'ГРС «Новолукомль»', 6),
+(48, 'ГРС «Жабинка»', 5),
+(49, 'ГРС Давид-городок', 5),
+(50, 'ГРС «Борисов»', 6),
+(51, 'ГРС «Жодино»', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instruments`
+--
+
+CREATE TABLE `instruments` (
+  `id` int(11) NOT NULL,
+  `factory_number` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `certificate_of_verification` varchar(255) DEFAULT NULL,
+  `valid_until` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `instruments`
+--
+
+INSERT INTO `instruments` (`id`, `factory_number`, `name`, `model`, `certificate_of_verification`, `valid_until`) VALUES
+(1, '320842', 'Виброколлектор', 'STD-510', 'BY 01 № 0007660-0000', '2024-08-10'),
+(2, '168P379454', 'Вибропреобразователь', 'CSP-M603C', 'BY 01 № 0007660-1111', '2024-08-10'),
+(3, '7274', 'Метеометр', 'МЭС 200А', 'BY 01 № 0022301-2222', '2024-05-02'),
+(4, '7274', 'Щуп', 'Щ-1', 'BY 01 № 0003993-5555', '2024-05-15'),
+(5, '206520', 'Прибор комбинированный', 'ТКА-ПКМ(20)', 'BY 01 № 0023161-5666', '2024-08-07'),
+(6, '1712', 'Виброанализатор', 'STD-3300', 'BY 01 № 0007745-3232', '2024-08-21'),
+(7, '305362', 'Вибропреобразователь', '603М150', 'BY 01 № 0007745-3423', '2024-08-21'),
+(8, '32106', 'Виброколлектор', 'STD-510', 'BY 01 № 0007759-3423', '2024-10-24'),
+(9, '2209049', 'Вибропреобразователь', 'CSP-M603C', 'BY 01 № 0007759-3423', '2024-10-24'),
+(10, '7273', 'Метеометр', 'МЭС 200А', 'BY 01 № 0007759-3429', '2024-02-15'),
+(11, '7273', 'Щуп', 'Щ-1', 'BY 01 № 0007759-3426', '2024-02-15'),
+(12, '32105', 'Виброколлектор', 'STD-510', 'BY 01 № 0007760-3423', '2024-10-24'),
+(13, '2209048', 'Вибропреобразователь', 'CSP-M603', 'BY 01 № 0007760-3423', '2024-10-24'),
+(14, '1903', 'Виброколлектор', 'STD-3300', 'BY 01 № 0007955-3423', '2024-09-27'),
+(15, '218338', 'Вибропреобразователь', 'CSP-M603M', 'BY 01 № 0007955-3423', '2024-09-27'),
+(18, '1943', 'Виброколлектор', 'STD-3300', 'BY 01 № 0007742-3423', '2024-08-15'),
+(19, '436372', 'Вибропреобразователь', '603М150', 'BY 01 № 0007742-3423', '2024-08-15'),
+(20, '436373', 'Вибропреобразователь', '603M150', 'BY 01 № 0003869-3422', '2024-08-21');
+
+--
+-- Triggers `instruments`
+--
+DELIMITER $$
+CREATE TRIGGER `ad_instruments` AFTER DELETE ON `instruments` FOR EACH ROW BEGIN
+  INSERT INTO instruments_log (action, action_time, id, factory_number, name, model, certificate_of_verification, valid_until)
+  VALUES('delete', NOW(), OLD.id, OLD.factory_number, OLD.name, OLD.model, OLD.certificate_of_verification, OLD.valid_until);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `ai_instruments` AFTER INSERT ON `instruments` FOR EACH ROW BEGIN
+  INSERT INTO instruments_log (action, action_time, id, factory_number, name, model, certificate_of_verification, valid_until)
+  VALUES('insert', NOW(), NEW.id, NEW.factory_number, NEW.name, NEW.model, NEW.certificate_of_verification, NEW.valid_until);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `au_instruments` AFTER UPDATE ON `instruments` FOR EACH ROW BEGIN
+  INSERT INTO instruments_log (action, action_time, id, factory_number, name, model, certificate_of_verification, valid_until)
+  VALUES('update', NOW(), NEW.id, NEW.factory_number, NEW.name, NEW.model, NEW.certificate_of_verification, NEW.valid_until);
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instruments_log`
+--
+
+CREATE TABLE `instruments_log` (
+  `action` varchar(255) DEFAULT NULL,
+  `action_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id` int(11) DEFAULT NULL,
+  `factory_number` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `certificate_of_verification` varchar(255) NOT NULL,
+  `valid_until` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `instruments_log`
+--
+
+INSERT INTO `instruments_log` (`action`, `action_time`, `id`, `factory_number`, `name`, `model`, `certificate_of_verification`, `valid_until`) VALUES
+('update', '2024-04-26 17:31:18', 20, '436373', 'Вибропреобразователь', '603M150', 'BY 01 № 0003869-3422', '2024-08-21'),
+('insert', '2024-04-26 17:33:44', 23, '123456', 'Щуп', 'SE', '1234567890', '2024-04-30'),
+('update', '2024-04-26 17:35:27', 23, '123456', 'Щуп', 'SEE', '1234567890', '2024-04-30'),
+('update', '2024-04-26 17:44:22', 23, '123456', 'Щуп', 'SE', '1234567890', '2024-05-02'),
+('update', '2024-04-26 17:44:32', 23, '123456', 'Щуп', 'SE', '1234567890', '2024-06-15'),
+('update', '2024-04-26 17:44:40', 23, '123456', 'Щуп', 'SE', '1234567890', '2024-10-26'),
+('insert', '2024-04-26 17:49:50', 24, '9999', 'Щуп', 'gg', '987654', '2024-04-30'),
+('update', '2024-04-26 17:51:06', 24, '9999', 'Щуп', 'gg', '987654', '2024-07-04'),
+('update', '2024-04-26 20:38:24', 24, '9999', 'Щуп', 'gg', '987654', '2025-01-10'),
+('update', '2024-04-26 20:38:42', 24, '9999', 'Щуп', 'gg', '987654', '2025-04-03'),
+('update', '2024-04-27 06:08:23', 24, '9999', 'Щуп', 'gg', '987654tdtc', '2025-04-30'),
+('delete', '2024-04-27 12:47:40', 23, '123456', 'Щуп', 'SE', '1234567890', '2024-10-26'),
+('delete', '2024-04-27 12:47:42', 24, '9999', 'Щуп', 'gg', '987654tdtc', '2025-04-30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marks`
+--
+
+CREATE TABLE `marks` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `relation_from` varchar(255) DEFAULT NULL,
+  `mark_from` varchar(255) DEFAULT NULL,
+  `relation_to` varchar(255) DEFAULT NULL,
+  `mark_to` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `marks`
+--
+
+INSERT INTO `marks` (`id`, `name`, `relation_from`, `mark_from`, `relation_to`, `mark_to`) VALUES
+(1, 'отлично', '', '', '<', '4.4'),
+(2, 'хорошо', '>=', '4.4', '<', '7'),
+(3, 'допустимо', '>=', '7', '<', '11.2'),
+(4, 'требует принятия мер', '>=', '11.2', '<', '18'),
+(5, 'недопустимо', '>=', '18', '', ''),
+(6, 'хорошо', ' ', ' ', '<', '2'),
+(7, 'допустимо', '>=', '2', '<', '3'),
+(8, 'требует принятия мер', '>=', '3', '<', '4.5'),
+(9, 'недопустимо', '>=', '4.5', '', ''),
+(10, 'отлично', ' ', ' ', ' ', ' '),
+(16, NULL, '', '', '<', '4'),
+(17, NULL, '>=', '5', '', ''),
+(18, NULL, '', '', '', ''),
+(19, NULL, '', '', '', ''),
+(20, NULL, '', '', '', ''),
+(21, NULL, ' ', ' ', ' ', ' '),
+(22, NULL, ' ', ' ', '<', '2'),
+(23, NULL, '>=', '2', '<', '3'),
+(24, NULL, '>=', '3', '<', '4.5'),
+(25, NULL, '>=', '4.5', '', ''),
+(26, NULL, '', '', '<', '5'),
+(27, NULL, '>=', '7', '<', '9'),
+(28, NULL, '>=', '9', '<', '9'),
+(29, NULL, '>=', '5', '<', '7'),
+(30, NULL, '>=', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offices`
+--
+
+CREATE TABLE `offices` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `offices`
+--
+
+INSERT INTO `offices` (`id`, `name`) VALUES
+(1, 'ГРС'),
+(5, 'ГКС');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `persons`
+--
+
+CREATE TABLE `persons` (
+  `id` int(11) NOT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `function` varchar(255) DEFAULT NULL,
+  `certificate` varchar(255) DEFAULT NULL,
+  `date_of_issue` date DEFAULT NULL,
+  `is_active` bit(1) NOT NULL DEFAULT b'0',
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `persons`
+--
+
+INSERT INTO `persons` (`id`, `last_name`, `name`, `first_name`, `function`, `certificate`, `date_of_issue`, `is_active`, `email`, `password`, `token`) VALUES
+(1, 'Сидоров', 'Евгений', 'Иванович', 'инженер по наладке и испытаниям', 'abc', '2024-02-23', b'0', 'sidorov@mail.com', '123$2a$10$NRGToJn1cpBoEfGmcEKkbuW763kp04bEUtGRsrNfgzCtQtVzTcOF2', NULL),
+(2, 'Петров', 'Владимир', 'Владимирович', 'ведущий инженер по наладке и испытаниям', 'cde', '2024-02-01', b'0', 'petrov@mail.com', '123$2a$10$NRGToJn1cpBoEfGmcEKkbuW763kp04bEUtGRsrNfgzCtQtVzTcOF2', NULL),
+(3, 'Александров', 'Олег', 'Растиславович', 'ведущий инженер по наладке и испытаниям', 'efg', '2024-02-01', b'0', 'alexsandrov@mail.com', '123$2a$10$NRGToJn1cpBoEfGmcEKkbuW763kp04bEUtGRsrNfgzCtQtVzTcOF2', NULL),
+(4, 'Степанов', 'Максим', 'Анатольевич', 'инженер по наладке и испытаниям', 'fgh', '2024-02-01', b'0', 'stepanov@mail.com', '$2a$10$NRGToJn1cpBoEfGmcEKkbuW763kp04bEUtGRsrNfgzCtQtVzTcOF2', NULL),
+(5, 'Васильев', 'Василий', 'Федорович', 'инженер по наладке и испытаниям', 'hjkl', '2024-02-01', b'0', 'vasilev@mail.com', '$2a$10$NRGToJn1cpBoEfGmcEKkbuW763kp04bEUtGRsrNfgzCtQtVzTcOF2', NULL),
+(6, 'Максимов', 'Владимир', 'Александрович', 'ведущий инженер по наладке и испытаниям', 'mno', '2024-02-01', b'0', 'maksimov@mail.com', '$2a$10$NRGToJn1cpBoEfGmcEKkbuW763kp04bEUtGRsrNfgzCtQtVzTcOF2', NULL),
+(8, 'Иванов', 'Иван', 'Иванович', 'заместитель начальника', 'zxcvbn', '2024-04-12', b'0', 'ivanov@mail.com', '$2a$10$NRGToJn1cpBoEfGmcEKkbuW763kp04bEUtGRsrNfgzCtQtVzTcOF2', NULL),
+(9, 'Павлов', 'Петр', 'Петрович', 'начальник', 'asdfgh', '2024-04-24', b'0', 'pavlov@mail.com', '$2a$10$NRGToJn1cpBoEfGmcEKkbuW763kp04bEUtGRsrNfgzCtQtVzTcOF2', NULL),
+(10, 'Kupreeva', 'Tatyana ', 'Sergeevna', 'engineer', 'rghn', '2024-04-01', b'1', 'tanya.kupreeva91@gmail.com', '$2a$10$4N8oCyjoATuiELrQDXj/Qe7o6tw4kWKOSxu2x.K5.xzxRxIXs5Dpe', '367d1601-8f78-4dc3-a5e8-8e358b82cdcd'),
+(12, 'Ivanov', 'Ivan', 'Ivanovich', 'engineer', 'zxcvb0000', '2024-04-18', b'0', 'ii@mail.com', '$2a$10$d1snHU5mH.Wveabfh.YIJO5x.PWSrvpZSLqZ9L6Lf7yzMM.p.m19G', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `persons_roles`
+--
+
+CREATE TABLE `persons_roles` (
+  `person_id` int(11) NOT NULL,
+  `role_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `persons_roles`
+--
+
+INSERT INTO `persons_roles` (`person_id`, `role_id`) VALUES
+(1, 2),
+(2, 2),
+(3, 2),
+(4, 2),
+(5, 2),
+(6, 2),
+(12, 2),
+(10, 1),
+(10, 2),
+(8, 1),
+(9, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reports`
+--
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `registration_num` varchar(255) DEFAULT NULL,
+  `grs_id` int(11) NOT NULL,
+  `date` date DEFAULT NULL,
+  `test_date` date DEFAULT NULL,
+  `scheme` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reports`
+--
+
+INSERT INTO `reports` (`id`, `registration_num`, `grs_id`, `date`, `test_date`, `scheme`) VALUES
+(13, '221/23', 47, '2023-12-27', '2023-12-06', '9ede58a7-850f-49eb-9e30-674cc29fbc41.1378736486_b27e88.jpg'),
+(14, '159/23', 47, '2023-10-09', '2023-10-04', '46f1a7a0-09d8-414d-87df-ffe7e9dff042.x013.gif'),
+(21, '123', 50, '2024-04-27', '2024-04-29', 'd78b3160-940d-40a1-889e-27abfaccf7fa.IMG_4039.JPG'),
+(22, '89/23', 18, '2024-04-10', '2024-04-30', '05fa9aa0-72b2-4079-9a7f-9d1490236da4.PikPng.com_java-logo-transparent-png_1469159.png'),
+(23, '34/24', 41, '2024-04-29', '2024-04-30', '4c03a0a0-bb95-431e-99ef-70f01af6d564.pngwing.com-3.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_instrument`
+--
+
+CREATE TABLE `report_instrument` (
+  `report_id` int(11) NOT NULL,
+  `instrument_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `report_instrument`
+--
+
+INSERT INTO `report_instrument` (`report_id`, `instrument_id`) VALUES
+(14, 8),
+(14, 9),
+(14, 11),
+(14, 10),
+(13, 18),
+(13, 20),
+(13, 3),
+(13, 4),
+(21, 6),
+(21, 1),
+(22, 6),
+(22, 10),
+(22, 5),
+(23, 8),
+(23, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_person`
+--
+
+CREATE TABLE `report_person` (
+  `report_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `report_person`
+--
+
+INSERT INTO `report_person` (`report_id`, `person_id`) VALUES
+(14, 3),
+(13, 2),
+(21, 3),
+(21, 5),
+(22, 3),
+(22, 5),
+(23, 6),
+(23, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `results`
+--
+
+CREATE TABLE `results` (
+  `id` int(11) NOT NULL,
+  `report_id` int(11) NOT NULL,
+  `number_n` int(11) NOT NULL,
+  `quantity_t` int(11) NOT NULL,
+  `p_in` double DEFAULT NULL,
+  `p_out` double DEFAULT NULL,
+  `rate` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `results`
+--
+
+INSERT INTO `results` (`id`, `report_id`, `number_n`, `quantity_t`, `p_in`, `p_out`, `rate`) VALUES
+(113, 14, 11, 11, 3.95, 0.57, 1.8),
+(114, 14, 4, 8, 3.95, 1.16, 168),
+(120, 13, 2, 10, 3.57, 1.17, 85),
+(121, 13, 9, 10, 3.57, 1.17, 100),
+(126, 14, 53, 2, 3.95, 0.57, 168),
+(127, 21, 5, 6, 3.95, 1.16, 1.3),
+(128, 21, 1, 4, 3.95, 1.1666, 1.3333),
+(129, 22, 12, 1, 3.95, 0.57, 1800),
+(130, 23, 9, 3, 3, 0.57, 1.3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_USER');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `umg`
+--
+
+CREATE TABLE `umg` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `umg`
+--
+
+INSERT INTO `umg` (`id`, `name`) VALUES
+(1, 'Гомельское УМГ  ОАО «Газпром трансгаз Беларусь»'),
+(2, 'Кобринское УМГ  ОАО «Газпром трансгаз Беларусь»'),
+(3, 'Крупское УМГ  ОАО «Газпром трансгаз Беларусь»'),
+(4, 'Минское УМГ  ОАО «Газпром трансгаз Беларусь»'),
+(6, 'Несвижское УМГ  ОАО «Газпром трансгаз Беларусь»'),
+(7, 'Оршанское УМГ  ОАО «Газпром трансгаз Беларусь»'),
+(8, 'Осиповичское УМГ  ОАО «Газпром трансгаз Беларусь»'),
+(9, 'Слонимское УМГ  ОАО «Газпром трансгаз Беларусь»');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_office_id` (`office_id`),
+  ADD KEY `fk_umg_id_id` (`umg_id`);
+
+--
+-- Indexes for table `conditions`
+--
+ALTER TABLE `conditions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_report` (`report_id`);
+
+--
+-- Indexes for table `criterias`
+--
+ALTER TABLE `criterias`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_exc` (`excellent`),
+  ADD KEY `fk_goo` (`good`),
+  ADD KEY `fk_acc` (`acceptable`),
+  ADD KEY `fk_req` (`requires_action`),
+  ADD KEY `fk_una` (`unacceptable`);
+
+--
+-- Indexes for table `detail_results`
+--
+ALTER TABLE `detail_results`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_result_id` (`result_id`),
+  ADD KEY `fk_criteria_id` (`criteria_id`);
+
+--
+-- Indexes for table `grs`
+--
+ALTER TABLE `grs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKmejufxpnxy67ha9ht4d8psdmy` (`client_id`);
+
+--
+-- Indexes for table `instruments`
+--
+ALTER TABLE `instruments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `marks`
+--
+ALTER TABLE `marks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `offices`
+--
+ALTER TABLE `offices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `persons`
+--
+ALTER TABLE `persons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UK1x5aosta48fbss4d5b3kuu0rd` (`email`);
+
+--
+-- Indexes for table `persons_roles`
+--
+ALTER TABLE `persons_roles`
+  ADD KEY `fk_role_id` (`role_id`),
+  ADD KEY `fk_person_id_persons` (`person_id`);
+
+--
+-- Indexes for table `reports`
+--
+ALTER TABLE `reports`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `registration_num` (`registration_num`),
+  ADD KEY `fk_grs_id` (`grs_id`);
+
+--
+-- Indexes for table `report_instrument`
+--
+ALTER TABLE `report_instrument`
+  ADD KEY `fk_instrtument_id` (`instrument_id`),
+  ADD KEY `fk_report_id_test_report` (`report_id`);
+
+--
+-- Indexes for table `report_person`
+--
+ALTER TABLE `report_person`
+  ADD KEY `fk_report_id` (`report_id`),
+  ADD KEY `fk_person_id` (`person_id`);
+
+--
+-- Indexes for table `results`
+--
+ALTER TABLE `results`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_rep_id` (`report_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UK_ofx66keruapi6vyqpv6f2or37` (`name`);
+
+--
+-- Indexes for table `umg`
+--
+ALTER TABLE `umg`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `conditions`
+--
+ALTER TABLE `conditions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `criterias`
+--
+ALTER TABLE `criterias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `detail_results`
+--
+ALTER TABLE `detail_results`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+--
+-- AUTO_INCREMENT for table `grs`
+--
+ALTER TABLE `grs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
+-- AUTO_INCREMENT for table `instruments`
+--
+ALTER TABLE `instruments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `marks`
+--
+ALTER TABLE `marks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `offices`
+--
+ALTER TABLE `offices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `persons`
+--
+ALTER TABLE `persons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `reports`
+--
+ALTER TABLE `reports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `results`
+--
+ALTER TABLE `results`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `umg`
+--
+ALTER TABLE `umg`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `clients`
+--
+ALTER TABLE `clients`
+  ADD CONSTRAINT `fk_office_id` FOREIGN KEY (`office_id`) REFERENCES `offices` (`id`),
+  ADD CONSTRAINT `fk_umg_id_id` FOREIGN KEY (`umg_id`) REFERENCES `umg` (`id`);
+
+--
+-- Constraints for table `conditions`
+--
+ALTER TABLE `conditions`
+  ADD CONSTRAINT `fk_id_report` FOREIGN KEY (`report_id`) REFERENCES `reports` (`id`);
+
+--
+-- Constraints for table `criterias`
+--
+ALTER TABLE `criterias`
+  ADD CONSTRAINT `fk_acc` FOREIGN KEY (`acceptable`) REFERENCES `marks` (`id`),
+  ADD CONSTRAINT `fk_exc` FOREIGN KEY (`excellent`) REFERENCES `marks` (`id`),
+  ADD CONSTRAINT `fk_goo` FOREIGN KEY (`good`) REFERENCES `marks` (`id`),
+  ADD CONSTRAINT `fk_req` FOREIGN KEY (`requires_action`) REFERENCES `marks` (`id`),
+  ADD CONSTRAINT `fk_una` FOREIGN KEY (`unacceptable`) REFERENCES `marks` (`id`);
+
+--
+-- Constraints for table `detail_results`
+--
+ALTER TABLE `detail_results`
+  ADD CONSTRAINT `fk_criteria_id` FOREIGN KEY (`criteria_id`) REFERENCES `criterias` (`id`),
+  ADD CONSTRAINT `fk_result_id` FOREIGN KEY (`result_id`) REFERENCES `results` (`id`);
+
+--
+-- Constraints for table `grs`
+--
+ALTER TABLE `grs`
+  ADD CONSTRAINT `FKmejufxpnxy67ha9ht4d8psdmy` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`);
+
+--
+-- Constraints for table `persons_roles`
+--
+ALTER TABLE `persons_roles`
+  ADD CONSTRAINT `fk_person_id_persons` FOREIGN KEY (`person_id`) REFERENCES `persons` (`id`),
+  ADD CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+
+--
+-- Constraints for table `reports`
+--
+ALTER TABLE `reports`
+  ADD CONSTRAINT `fk_grs_id` FOREIGN KEY (`grs_id`) REFERENCES `grs` (`id`);
+
+--
+-- Constraints for table `report_instrument`
+--
+ALTER TABLE `report_instrument`
+  ADD CONSTRAINT `fk_instrtument_id` FOREIGN KEY (`instrument_id`) REFERENCES `instruments` (`id`),
+  ADD CONSTRAINT `fk_report_id_test_report` FOREIGN KEY (`report_id`) REFERENCES `reports` (`id`);
+
+--
+-- Constraints for table `report_person`
+--
+ALTER TABLE `report_person`
+  ADD CONSTRAINT `fk_person_id` FOREIGN KEY (`person_id`) REFERENCES `persons` (`id`),
+  ADD CONSTRAINT `fk_report_id` FOREIGN KEY (`report_id`) REFERENCES `reports` (`id`);
+
+--
+-- Constraints for table `results`
+--
+ALTER TABLE `results`
+  ADD CONSTRAINT `fk_rep_id` FOREIGN KEY (`report_id`) REFERENCES `reports` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
